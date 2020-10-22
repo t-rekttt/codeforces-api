@@ -188,9 +188,9 @@ let getSubmissionsInGroupContest = async(groupName = 'FLVn1Sc504', contestId = '
     jar
   });
 
-  let $ = cheerio.load(r.body);
+  let $temp = cheerio.load(r.body);
 
-  let csrfToken = $('.csrf-token').attr('data-csrf');
+  let csrfToken = $temp('.csrf-token').attr('data-csrf');
 
   if (participant) {
     r = await request.post(url, {
@@ -210,6 +210,8 @@ let getSubmissionsInGroupContest = async(groupName = 'FLVn1Sc504', contestId = '
   } else {
     r = r.body;
   }
+
+  let $ = cheerio.load(r);
 
   let lines = $('table.status-frame-datatable tr:not(.first-row)');
 
